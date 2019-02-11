@@ -44,18 +44,20 @@ public class Mercenario{
 	public void setHP(int ataque){
 		hp=hp-ataque;
 	}
-	public int atacar(){
-		int ataque = (int)(getAtaque()*Math.random());
-		System.out.println(getNombre()+" ataca con una fuerza de: "+ataque);
-		return ataque;
+	public int atacar(int valorDef){
+		int ataque = ((int)(getAtaque()*Math.random()))-valorDef;
+		System.out.println(getNombre()+" ataca con una fuerza de: "+(ataque+valorDef));		
+		if(ataque<0){
+			hp=hp+ataque/2;
+			System.out.println(getNombre()+" ha esquivado el ataque! Devuelve "+(-ataque/2)+" de da\u00f1o");
+			return 0;
+		}else	return ataque;
+
 	}
-	public int defender(int ataque){
+	public int defender(){
 		int valorDefensa=(int)(getDefensa()*Math.random());
 		System.out.println(getNombre()+" defiende con un valor de: "+valorDefensa);
-		if(ataque-valorDefensa<=0){
-			System.out.println(getNombre()+" ha esquivado el ataque!");
-			return 0;
-		}else return ataque-valorDefensa;
+		return valorDefensa;
 
 	}
 }

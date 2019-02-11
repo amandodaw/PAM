@@ -30,6 +30,7 @@ public class Jugador{
 
 	}
 	public void mostrarMercenarios(){
+		System.out.println("\nPandilla de "+nombre);
 		for(Mercenario merc:pandilla){
 			merc.mostrarStats();
 		}
@@ -86,6 +87,13 @@ public class Jugador{
 		pelear(elegirMercenario(),rival);
 		menuPrincipal();
 	}
+	public void menuTienda(){
+		System.out.println("\n1. Comprar pocion(Cura 50 HP) - 50g\n2. Comprar escudo(Defensa+25)\n3. Comprar machete(Ataque+25)");
+		int opcion = sc.nextInt();
+		switch(opcion){
+		case 1: break;
+		}
+	}
 	public Mercenario pelear(Mercenario a, Mercenario b){
 		a.mostrarStats();
 		System.out.println("-----VS-----");
@@ -97,10 +105,10 @@ public class Jugador{
 		}else System.out.println(b.getNombre()+" tiene la iniciativa! Machacaos!");
 		while(a.getHP()>0&&b.getHP()>0){
 			if(iniciativa==1){
-				b.setHP(b.defender(a.atacar()));
+				b.setHP(a.atacar(b.defender()));
 				iniciativa=0;
 			}else{
-				a.setHP(a.defender(b.atacar()));
+				a.setHP(b.atacar(a.defender()));
 				iniciativa=1;
 			} 
 			System.out.println(a.getNombre()+" HP:"+a.getHP()+" | "+b.getNombre()+" HP:"+b.getHP()+"\n---------------");
@@ -140,7 +148,7 @@ public class Jugador{
 		}
 	}
 	public void gameOver(){
-		System.out.println("Ha muerto todo tu equipo y no tienes pasta. Adios\n");
+		System.out.println("\nHa muerto todo tu equipo y no tienes pasta. Adios! :D\n");
 		System.out.println("   _____                         ____                 ");
 		System.out.println("  / ____|                       / __ \\                ");
 		System.out.println(" | |  __  __ _ _ __ ___   ___  | |  | |_   _____ _ __ ");

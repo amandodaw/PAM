@@ -11,5 +11,6 @@ public class Main{
 		pepe.mostrarStats();*/
 		Jugador jugador = new Jugador(sc.nextLine());
 		jugador.menuPrincipal();
+		sc.close();
 	}
 }
