@@ -3,10 +3,10 @@ import java.util.ArrayList;
 
 public class Jugador{
 	private String nombre;
-	private int oro;
+	private int oro, numPociones,numEscudos,numMachetes;
 	private ArrayList<Mercenario> pandilla = new ArrayList<Mercenario>();
 	private Mercenario rival;
-	private static int recompensa;
+	private static int recompensa, poderPocion, precioPocion;
 	Scanner sc = new Scanner(System.in);
 	private String[] requiem = new String[]{" queria vivir para servir a su amo... Pero ha muerto. Era un poco rarito si me preguntas",
 	" ha mordido el polvo. Literalmente. Que ha muerto @#$%&!"," HA MUERTO! MUERTISIMO ESTA."};	
@@ -14,16 +14,20 @@ public class Jugador{
 		this.nombre=nombre;
 		oro=500;
 		recompensa=100;
+		poderPocion=50;
+		precioPocion=50;
 	}
 	public void menuPrincipal(){
 		if(pandilla.size()>0||oro>=300){
-			System.out.println("Selecciona una opcion.\n\n1. Contratar mercenario\n2. Lista reclutados\n3. Pelear en el ring");
+			System.out.println("Selecciona una opcion.\n\n1. Contratar mercenario\n2. Lista reclutados\n3. Pelear en el ring\n4. Tienda\n5. Inventario");
 			System.out.println("---------------");
 			int opcion=sc.nextInt();
 			switch(opcion){
 				case 1: menuReclutar(); break;
 				case 2: mostrarMercenarios(); break;
 				case 3: menuRing(); break;
+				case 4: menuTienda(); break;
+				case 5: inventario(); break;
 			}
 		}
 
@@ -44,12 +48,12 @@ public class Jugador{
 				listaReclutas[i]=new Mercenario();
 				listaReclutas[i].generarStats();
 			}
-			System.out.println("Nombre | Ataque | Defensa | HP");
+			System.out.println("Nombre |");
 			for(int i = 0; i<6;i++){
 				if(i==5){
 					System.out.println("6. Cancelar compra");
 				}else System.out.println((i+1)+" "+listaReclutas[i].getNombre()+" "
-				+listaReclutas[i].getAtaque()+" "+listaReclutas[i].getDefensa()+" "+listaReclutas[i].getHP());			
+				+listaReclutas[i].getAtaque()+"-ATQ "+listaReclutas[i].getDefensa()+"-DEF "+listaReclutas[i].getHP()+"-HP");			
 			}
 			System.out.println("---------------");
 			System.out.println("Introduce el numero correspondiente al mercenario que quieres comprar. Todos cuestan 300 de oro");
@@ -91,7 +95,7 @@ public class Jugador{
 		System.out.println("\n1. Comprar pocion(Cura 50 HP) - 50g\n2. Comprar escudo(Defensa+25)\n3. Comprar machete(Ataque+25)");
 		int opcion = sc.nextInt();
 		switch(opcion){
-		case 1: break;
+		case 1: comprarPocion();break;
 		}
 	}
 	public Mercenario pelear(Mercenario a, Mercenario b){
@@ -128,13 +132,23 @@ public class Jugador{
 		}	
 	}		
 	public Mercenario elegirMercenario(){
-		System.out.println("Elige el campeón con el que quieres pelear");
+		System.out.println("Elige a un campeon");
 		for(int i=0;i< pandilla.size();i++){
 			System.out.println((i+1)+" "+pandilla.get(i).getNombre());
 			pandilla.get(i).mostrarStats();
 		}
 		int opcion=sc.nextInt();
 		return pandilla.get(opcion-1);
+	}
+	public void inventario(){
+		System.out.println("Dispones de los siguientes objetos:\n1.- "+numPociones+" pociones.\n2.- "+numEscudos+" escudos.\n3.- "+numMachetes+" machetes.\n4.- Salir\nQuieres usar alguno?");
+		int opcion = sc.nextInt();
+		switch(opcion){
+		case 1: usarPocion();break;
+		}
+	}
+	public void usarPocion() {
+		elegirMercenario().setHP(-poderPocion);
 	}
 	public void cementerio(){
 		for(int i=0;i<pandilla.size();i++){
@@ -156,6 +170,14 @@ public class Jugador{
 		System.out.println(" | |__| | (_| | | | | | |  __/ | |__| |\\ V /  __/ |   ");
 		System.out.println("  \\_____|\\__,_|_| |_| |_|\\___|  \\____/  \\_/ \\___|_|   ");
 		sc.close();
+	}
+	public void comprarPocion(){
+		System.out.println("Las pociones restauran "+poderPocion+"\nCuantas pociones quieres comprar? \nPrecio: 50g");
+		int num=sc.nextInt();
+		numPociones=numPociones+num;
+		oro=oro-num*precioPocion;
+		System.out.println("Te queda: "+oro+"g");
+		
 	}
 	
 }
