@@ -121,7 +121,7 @@ public class Jugador{
 		}else{
 			System.out.println(a.getNombre()+" ha reventado a "+b.getNombre());
 			oro=oro+recompensa;
-			System.out.println("Has ganado "+recompensa+"! Total: "+oro);
+			System.out.println("Has ganado "+recompensa+"g! Total: "+oro+"g");
 			return a;
 		}	
 	}		

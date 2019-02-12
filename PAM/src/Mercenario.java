@@ -3,7 +3,7 @@ public class Mercenario{
 	private int ataque, defensa, hp, hpMax;
 	private boolean escudo=true, machete=true;
 	
-	public void generarStats(){
+	public Mercenario(){
 		ataque = (int) Math.floor(Math.random() * 24 + 1);
 		defensa = (int) Math.floor(Math.random() * 14 + 1);
 		hpMax = (int) Math.floor(Math.random() * 49 + 1);
@@ -27,6 +27,7 @@ public class Mercenario{
 		}
 		nombre= new String(constructorNombre);
 	}
+
 	public void mostrarStats(){
 		if(escudo&&machete){
 			System.out.println(getNombre()+" "+getAtaque()+"-ATQ "+getDefensa()+"-DEF "+getHP()+"-HP. Con machete y escudo.");

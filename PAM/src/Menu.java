@@ -30,7 +30,6 @@ public class Menu {
 			Mercenario[] listaReclutas = new Mercenario[5];
 			for(int i = 0; i<5;i++){
 				listaReclutas[i]=new Mercenario();
-				listaReclutas[i].generarStats();
 			}
 			System.out.println("Nombre |");
 			for(int i = 0; i<6;i++){
@@ -65,7 +64,6 @@ public class Menu {
 		Mercenario[] listaRing = new Mercenario[5];
 		for(int i = 0; i<5;i++){
 			listaRing[i]=new Mercenario();
-			listaRing[i].generarStats();
 		}
 		System.out.println("Nombre |");
 		for(int i = 0; i<6;i++){
@@ -76,12 +74,12 @@ public class Menu {
 		}
 		System.out.println("Introduce el numero correspondiente al mercenario rival que quieres atacar");
 		int opcion = sc.nextInt()-1;
-		/*if(opcion!=5){
-			jugador.setRival(new Mercenario());
-			jugador.setRival(listaRing[opcion]);
-		}*/		
-		jugador.pelear(jugador.elegirMercenario(),listaRing[opcion]);
-		menuPrincipal();
+		if(opcion==6){
+			menuPrincipal();
+		}else{
+			jugador.pelear(jugador.elegirMercenario(),listaRing[opcion]);
+			menuPrincipal();
+		}
 	}
 	public static void menuTienda(){
 		System.out.println("\n1. Comprar pocion(Cura 50 HP) - 50g\n2. Comprar escudo(Defensa+15)\n3. Comprar machete(Ataque+10)\n4. Volver");
