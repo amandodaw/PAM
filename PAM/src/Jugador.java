@@ -3,97 +3,95 @@ import java.util.ArrayList;
 
 public class Jugador{
 	private String nombre;
-	private int oro;
+	private int oro, numPociones,numEscudos,numMachetes;
 	private ArrayList<Mercenario> pandilla = new ArrayList<Mercenario>();
 	private Mercenario rival;
-	private static int recompensa;
+	private int recompensa, poderPocion, precioPocion;
 	Scanner sc = new Scanner(System.in);
 	private String[] requiem = new String[]{" queria vivir para servir a su amo... Pero ha muerto. Era un poco rarito si me preguntas",
 	" ha mordido el polvo. Literalmente. Que ha muerto @#$%&!"," HA MUERTO! MUERTISIMO ESTA."};	
+	
 	public Jugador(String nombre){
 		this.nombre=nombre;
 		oro=500;
 		recompensa=100;
+		poderPocion=50;
+		precioPocion=50;
+		numPociones=0;
 	}
-	public void menuPrincipal(){
-		if(pandilla.size()>0||oro>=300){
-			System.out.println("Selecciona una opcion.\n\n1. Contratar mercenario\n2. Lista reclutados\n3. Pelear en el ring");
-			System.out.println("---------------");
-			int opcion=sc.nextInt();
-			switch(opcion){
-				case 1: menuReclutar(); break;
-				case 2: mostrarMercenarios(); break;
-				case 3: menuRing(); break;
-			}
-		}
+	
+	public String getNombre() {
+		return nombre;
+	}
 
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
+	public int getOro() {
+		return oro;
 	}
-	public void mostrarMercenarios(){
-		System.out.println("\nPandilla de "+nombre);
-		for(Mercenario merc:pandilla){
-			merc.mostrarStats();
-		}
-		System.out.println("---------------");
-		menuPrincipal();
+
+	public void setOro(int oro) {
+		this.oro = oro;
 	}
-	public void menuReclutar(){
-		if(oro>=300){
-			Mercenario[] listaReclutas = new Mercenario[5];
-			for(int i = 0; i<5;i++){
-				listaReclutas[i]=new Mercenario();
-				listaReclutas[i].generarStats();
-			}
-			System.out.println("Nombre | Ataque | Defensa | HP");
-			for(int i = 0; i<6;i++){
-				if(i==5){
-					System.out.println("6. Cancelar compra");
-				}else System.out.println((i+1)+" "+listaReclutas[i].getNombre()+" "
-				+listaReclutas[i].getAtaque()+" "+listaReclutas[i].getDefensa()+" "+listaReclutas[i].getHP());			
-			}
-			System.out.println("---------------");
-			System.out.println("Introduce el numero correspondiente al mercenario que quieres comprar. Todos cuestan 300 de oro");
-			System.out.println("---------------");
-			int opcion = sc.nextInt()-1;
-			if(opcion!=5){
-				pandilla.add(listaReclutas[opcion]);
-				oro=oro-300;
-				System.out.println("Te queda "+oro+"g");
-			}
-		}else{
-			System.out.println("Que quieres hacer con solo "+oro+"g? vuelve cuando tengas mas pasta, pobreton");
-		}
-		menuPrincipal();
+
+	public int getNumPociones() {
+		return numPociones;
 	}
-	public void menuRing(){
-		Mercenario[] listaRing = new Mercenario[5];
-		for(int i = 0; i<5;i++){
-			listaRing[i]=new Mercenario();
-			listaRing[i].generarStats();
-		}
-		System.out.println("Nombre | Ataque | Defensa | HP");
-		for(int i = 0; i<6;i++){
-			if(i==5){
-				System.out.println("6. Cancelar pelea");
-			}else System.out.println((i+1)+" "+listaRing[i].getNombre()+" "
-			+listaRing[i].getAtaque()+" "+listaRing[i].getDefensa()+" "+listaRing[i].getHP());			
-		}
-		System.out.println("Introduce el numero correspondiente al mercenario rival que quieres atacar");
-		int opcion = sc.nextInt()-1;
-		if(opcion!=5){
-			rival=new Mercenario();
-			rival=listaRing[opcion];
-		}		
-		pelear(elegirMercenario(),rival);
-		menuPrincipal();
+
+	public void setNumPociones(int numPociones) {
+		this.numPociones = numPociones;
 	}
-	public void menuTienda(){
-		System.out.println("\n1. Comprar pocion(Cura 50 HP) - 50g\n2. Comprar escudo(Defensa+25)\n3. Comprar machete(Ataque+25)");
-		int opcion = sc.nextInt();
-		switch(opcion){
-		case 1: break;
-		}
+
+	public int getNumEscudos() {
+		return numEscudos;
 	}
+
+	public void setNumEscudos(int numEscudos) {
+		this.numEscudos = numEscudos;
+	}
+
+	public int getNumMachetes() {
+		return numMachetes;
+	}
+
+	public void setNumMachetes(int numMachetes) {
+		this.numMachetes = numMachetes;
+	}
+
+	public int getRecompensa() {
+		return recompensa;
+	}
+
+	public void setRecompensa(int recompensa) {
+		this.recompensa = recompensa;
+	}
+
+	public int getPoderPocion() {
+		return poderPocion;
+	}
+
+	public void setPoderPocion(int poderPocion) {
+		this.poderPocion = poderPocion;
+	}
+
+	public int getPrecioPocion() {
+		return precioPocion;
+	}
+
+	public void setPrecioPocion(int precioPocion) {
+		this.precioPocion = precioPocion;
+	}
+
+	public Mercenario getRival() {
+		return rival;
+	}
+
+	public void setRival(Mercenario rival) {
+		this.rival = rival;
+	}
+
 	public Mercenario pelear(Mercenario a, Mercenario b){
 		a.mostrarStats();
 		System.out.println("-----VS-----");
@@ -128,22 +126,45 @@ public class Jugador{
 		}	
 	}		
 	public Mercenario elegirMercenario(){
-		System.out.println("Elige el campeón con el que quieres pelear");
-		for(int i=0;i< pandilla.size();i++){
-			System.out.println((i+1)+" "+pandilla.get(i).getNombre());
-			pandilla.get(i).mostrarStats();
+		System.out.println("Elige a un campeon");
+		for(int i=0;i< getPandilla().size();i++){
+			System.out.println((i+1)+" "+getPandilla().get(i).getNombre());
+			getPandilla().get(i).mostrarStats();
 		}
 		int opcion=sc.nextInt();
-		return pandilla.get(opcion-1);
+		return getPandilla().get(opcion-1);
+	}
+
+	public void usarPocion() {
+		elegirMercenario().setHP(-poderPocion);
+	}
+	
+	public void darEscudo(){
+		if(numEscudos==0){
+			System.out.println("No tienes escudos");
+		}else{
+			elegirMercenario().setEscudo(true);
+			numEscudos=numEscudos-1;
+		}
+	}
+	
+	public void darMachete(){
+		if(numMachetes==0){
+			System.out.println("No tienes machetes");
+		}else{
+			elegirMercenario().setMachete(true);
+			numMachetes=numMachetes-1;
+		}
+
 	}
 	public void cementerio(){
-		for(int i=0;i<pandilla.size();i++){
-			if(pandilla.get(i).getHP()<=0){
-				System.out.println(pandilla.get(i).getNombre()+requiem[(int)(Math.random() * 3 + 0)]);
-				pandilla.remove(i);
+		for(int i=0;i<getPandilla().size();i++){
+			if(getPandilla().get(i).getHP()<=0){
+				System.out.println(getPandilla().get(i).getNombre()+requiem[(int)(Math.random() * 3 + 0)]);
+				getPandilla().remove(i);
 			}
 		}
-		if(pandilla==null||pandilla.size()==0){
+		if(getPandilla()==null||getPandilla().size()==0){
 			gameOver();
 		}
 	}
@@ -156,6 +177,14 @@ public class Jugador{
 		System.out.println(" | |__| | (_| | | | | | |  __/ | |__| |\\ V /  __/ |   ");
 		System.out.println("  \\_____|\\__,_|_| |_| |_|\\___|  \\____/  \\_/ \\___|_|   ");
 		sc.close();
+	}
+
+	public ArrayList<Mercenario> getPandilla() {
+		return pandilla;
+	}
+
+	public void setPandilla(ArrayList<Mercenario> pandilla) {
+		this.pandilla = pandilla;
 	}
 	
 }
