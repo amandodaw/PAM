@@ -1,11 +1,12 @@
 public class Mercenario{
 	private String nombre;
-	private int ataque, defensa, hp;
+	private int ataque, defensa, hp, hpMax;
 	
 	public void generarStats(){
-		ataque = (int) Math.floor(Math.random() * 51);
-		defensa = (int) Math.floor(Math.random() * 51);
-		hp = (int) Math.floor(Math.random() * 51);
+		ataque = (int) Math.floor(Math.random() * 24 + 1);
+		defensa = (int) Math.floor(Math.random() * 14 + 1);
+		hpMax = (int) Math.floor(Math.random() * 49 + 1);
+		hp=hpMax;
 		String consonantes = "bcdfghjklmnpqrstvwxyz";
 		String vocales = "aeiou";
 		int tamano = (int)(Math.random() * 11 + 2);
@@ -24,7 +25,7 @@ public class Mercenario{
 		nombre= new String(constructorNombre);
 	}
 	public void mostrarStats(){
-		System.out.println(getNombre()+" "+getAtaque()+" "+getDefensa()+" "+getHP());
+		System.out.println(getNombre()+" "+getAtaque()+"-ATQ "+getDefensa()+"-DEF "+getHP()+"-HP");
 	}
 	public String getNombre(){
 		return nombre;
@@ -43,6 +44,9 @@ public class Mercenario{
 	}
 	public void setHP(int ataque){
 		hp=hp-ataque;
+		if(hp>hpMax){
+			hp=hpMax;
+		}
 	}
 	public int atacar(int valorDef){
 		int ataque = ((int)(getAtaque()*Math.random()))-valorDef;
