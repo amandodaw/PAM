@@ -3,8 +3,73 @@ import java.util.ArrayList;
 
 public class Jugador{
 	private String nombre;
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public int getOro() {
+		return oro;
+	}
+
+	public void setOro(int oro) {
+		this.oro = oro;
+	}
+
+	public int getNumPociones() {
+		return numPociones;
+	}
+
+	public void setNumPociones(int numPociones) {
+		this.numPociones = numPociones;
+	}
+
+	public int getNumEscudos() {
+		return numEscudos;
+	}
+
+	public void setNumEscudos(int numEscudos) {
+		this.numEscudos = numEscudos;
+	}
+
+	public int getNumMachetes() {
+		return numMachetes;
+	}
+
+	public void setNumMachetes(int numMachetes) {
+		this.numMachetes = numMachetes;
+	}
+
+	public static int getRecompensa() {
+		return recompensa;
+	}
+
+	public static void setRecompensa(int recompensa) {
+		Jugador.recompensa = recompensa;
+	}
+
+	public static int getPoderPocion() {
+		return poderPocion;
+	}
+
+	public static void setPoderPocion(int poderPocion) {
+		Jugador.poderPocion = poderPocion;
+	}
+
+	public static int getPrecioPocion() {
+		return precioPocion;
+	}
+
+	public static void setPrecioPocion(int precioPocion) {
+		Jugador.precioPocion = precioPocion;
+	}
+
 	private int oro, numPociones,numEscudos,numMachetes;
 	private ArrayList<Mercenario> pandilla = new ArrayList<Mercenario>();
+	private static Menu menu;
 	private Mercenario rival;
 	private static int recompensa, poderPocion, precioPocion;
 	Scanner sc = new Scanner(System.in);
@@ -16,26 +81,12 @@ public class Jugador{
 		recompensa=100;
 		poderPocion=50;
 		precioPocion=50;
+		menu=new Menu();
 	}
-	public void menuPrincipal(){
-		if(pandilla.size()>0||oro>=300){
-			System.out.println("Selecciona una opcion.\n\n1. Contratar mercenario\n2. Lista reclutados\n3. Pelear en el ring\n4. Tienda\n5. Inventario");
-			System.out.println("---------------");
-			int opcion=sc.nextInt();
-			switch(opcion){
-				case 1: menuReclutar(); break;
-				case 2: mostrarMercenarios(); break;
-				case 3: menuRing(); break;
-				case 4: menuTienda(); break;
-				case 5: inventario(); break;
-			}
-		}
 
-
-	}
 	public void mostrarMercenarios(){
 		System.out.println("\nPandilla de "+nombre);
-		for(Mercenario merc:pandilla){
+		for(Mercenario merc:getPandilla()){
 			merc.mostrarStats();
 		}
 		System.out.println("---------------");
@@ -60,7 +111,7 @@ public class Jugador{
 			System.out.println("---------------");
 			int opcion = sc.nextInt()-1;
 			if(opcion!=5){
-				pandilla.add(listaReclutas[opcion]);
+				getPandilla().add(listaReclutas[opcion]);
 				oro=oro-300;
 				System.out.println("Te queda "+oro+"g");
 			}
@@ -133,12 +184,12 @@ public class Jugador{
 	}		
 	public Mercenario elegirMercenario(){
 		System.out.println("Elige a un campeon");
-		for(int i=0;i< pandilla.size();i++){
-			System.out.println((i+1)+" "+pandilla.get(i).getNombre());
-			pandilla.get(i).mostrarStats();
+		for(int i=0;i< getPandilla().size();i++){
+			System.out.println((i+1)+" "+getPandilla().get(i).getNombre());
+			getPandilla().get(i).mostrarStats();
 		}
 		int opcion=sc.nextInt();
-		return pandilla.get(opcion-1);
+		return getPandilla().get(opcion-1);
 	}
 	public void inventario(){
 		System.out.println("Dispones de los siguientes objetos:\n1.- "+numPociones+" pociones.\n2.- "+numEscudos+" escudos.\n3.- "+numMachetes+" machetes.\n4.- Salir\nQuieres usar alguno?");
@@ -151,13 +202,13 @@ public class Jugador{
 		elegirMercenario().setHP(-poderPocion);
 	}
 	public void cementerio(){
-		for(int i=0;i<pandilla.size();i++){
-			if(pandilla.get(i).getHP()<=0){
-				System.out.println(pandilla.get(i).getNombre()+requiem[(int)(Math.random() * 3 + 0)]);
-				pandilla.remove(i);
+		for(int i=0;i<getPandilla().size();i++){
+			if(getPandilla().get(i).getHP()<=0){
+				System.out.println(getPandilla().get(i).getNombre()+requiem[(int)(Math.random() * 3 + 0)]);
+				getPandilla().remove(i);
 			}
 		}
-		if(pandilla==null||pandilla.size()==0){
+		if(getPandilla()==null||getPandilla().size()==0){
 			gameOver();
 		}
 	}
@@ -178,6 +229,14 @@ public class Jugador{
 		oro=oro-num*precioPocion;
 		System.out.println("Te queda: "+oro+"g");
 		
+	}
+
+	public ArrayList<Mercenario> getPandilla() {
+		return pandilla;
+	}
+
+	public void setPandilla(ArrayList<Mercenario> pandilla) {
+		this.pandilla = pandilla;
 	}
 	
 }
