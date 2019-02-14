@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Menu {
+public final class Menu {
 	private static Jugador jugador;
 	//private static ArrayList<Mercenario> pandilla = new ArrayList<Mercenario>();
 	static Scanner sc = new Scanner(System.in);
@@ -12,7 +12,7 @@ public class Menu {
 	}
 	public static void menuPrincipal(){
 		if(jugador.getPandilla().size()>0||jugador.getOro()>=300){
-			System.out.println("Selecciona una opcion.\n\n1. Contratar mercenario\n2. Lista reclutados\n3. Pelear en el ring\n4. Tienda\n5. Inventario");
+			System.out.println("Selecciona una opcion.\n\n1. Contratar mercenario\n2. Lista reclutados\n3. Pelear en el ring(puedes ganar "+jugador.getRecompensa()+"g\n4. Tienda\n5. Inventario(equipar y usar objetos)\n6. Enfrentarse al jefe(una vez te enfrentes, no hay vuelta atras)");
 			System.out.println("---------------");
 			int opcion=sc.nextInt();
 			switch(opcion){
@@ -21,6 +21,7 @@ public class Menu {
 				case 3: menuRing(); break;
 				case 4: menuTienda(); break;
 				case 5: inventario(); break;
+				case 6: if(jugador.getPandilla().size()==0){System.out.println("A donde vas? No tienes mercenarios. Almenos que muera un pobre desgraciado.");}else batallaFinal();break;
 			}
 		}
 	}
@@ -82,7 +83,7 @@ public class Menu {
 		}
 	}
 	public static void menuTienda(){
-		System.out.println("\n1. Comprar pocion(Cura 50 HP) - 50g\n2. Comprar escudo(Defensa+15)\n3. Comprar machete(Ataque+10)\n4. Volver");
+		System.out.println("\n1. Comprar pocion(Cura 50 HP) - 50g\n2. Comprar escudo(Defensa+15) -100g\n3. Comprar machete(Ataque+10) -100g\n4. Volver");
 		int opcion = sc.nextInt();
 		switch(opcion){
 		case 1: comprarPocion();break;
@@ -92,27 +93,39 @@ public class Menu {
 		}
 	}
 	public static void comprarPocion(){
-		System.out.println("Las pociones restauran "+jugador.getPoderPocion()+"\nCuantas pociones quieres comprar? \nPrecio: 50g");
-		int num=sc.nextInt();
-		jugador.setNumPociones(jugador.getNumPociones()+num);
-		jugador.setOro(jugador.getOro()-num*jugador.getPrecioPocion());
-		System.out.println("Te queda: "+jugador.getOro()+"g");
+		if(jugador.getOro()<50){
+			System.out.println("Vaya, no tienes dinero");
+		}else{
+			System.out.println("Las pociones restauran "+jugador.getPoderPocion()+"\nCuantas pociones quieres comprar? \nPrecio: 50g");
+			int num=sc.nextInt();
+			jugador.setNumPociones(jugador.getNumPociones()+num);
+			jugador.setOro(jugador.getOro()-num*jugador.getPrecioPocion());
+			System.out.println("Te queda: "+jugador.getOro()+"g");
+		}
 		menuPrincipal();
 	}
 	public static void comprarEscudo(){
-		System.out.println("El escudo otorga 15 de defensa. Tiene un 25% de probabilidad de romperse. Cuesta 100g\nCuantos quieres comprar?");
-		int num=sc.nextInt();
-		jugador.setNumEscudos(jugador.getNumEscudos()+num);
-		jugador.setOro(jugador.getOro()-100);
-		System.out.println("Te queda: "+jugador.getOro()+"g");
+		if(jugador.getOro()<100){
+			System.out.println("Vaya, no tienes dinero");
+		}else{
+			System.out.println("El escudo otorga 15 de defensa. Tiene un 25% de probabilidad de romperse. Cuesta 100g\nCuantos quieres comprar?");
+			int num=sc.nextInt();
+			jugador.setNumEscudos(jugador.getNumEscudos()+num);
+			jugador.setOro(jugador.getOro()-100);
+			System.out.println("Te queda: "+jugador.getOro()+"g");
+		}
 		menuPrincipal();
 	}
 	public static void comprarMachete(){
-		System.out.println("El machete otorga 10 de ataque. Tiene un 25% de probabilidad de romperse. Cuesta 100g\nCuantos quieres comprar?");
-		int num=sc.nextInt();
-		jugador.setNumMachetes(jugador.getNumMachetes()+num);
-		jugador.setOro(jugador.getOro()-100);
-		System.out.println("Te queda: "+jugador.getOro()+"g");
+		if(jugador.getOro()<100){
+			System.out.println("Vaya, no tienes dinero");
+		}else{
+			System.out.println("El machete otorga 10 de ataque. Tiene un 25% de probabilidad de romperse. Cuesta 100g\nCuantos quieres comprar?");
+			int num=sc.nextInt();
+			jugador.setNumMachetes(jugador.getNumMachetes()+num);
+			jugador.setOro(jugador.getOro()-100);
+			System.out.println("Te queda: "+jugador.getOro()+"g");
+		}
 		menuPrincipal();
 	}
 	public static void inventario(){
@@ -123,7 +136,14 @@ public class Menu {
 		case 2: jugador.darEscudo();break;
 		case 3: jugador.darMachete();break;
 		case 4: menuPrincipal();break;
-		}
-		inventario();
+		}		
+	}
+	public static void batallaFinal(){
+		Jefe boss = new Jefe(25,25,50);
+		System.out.println("-----------");
+		boss.mostrarStats();
+		System.out.println("-----------");
+		System.out.println("Es tu contrinctante. Acaba con el. Reclama la taberna que pertenecio a tu familia tanto tiempo");
+		jugador.pelear(jugador.elegirMercenario(), boss);
 	}
 }

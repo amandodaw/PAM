@@ -43,10 +43,13 @@ public class Mercenario{
 	public int getAtaque(){
 		return ataque;
 	}
+	protected void setAtaque(int ataque){
+		this.ataque=ataque;
+	}
 	public int getDefensa(){
 		return defensa;
 	}
-	public void setDefensa(int def){
+	protected void setDefensa(int def){
 		defensa=def;		
 	}
 	public int getHP(){
@@ -58,12 +61,18 @@ public class Mercenario{
 			hp=hpMax;
 		}
 	}
+	protected void setHPMax(int hp){
+		this.hpMax=hp;
+	}
+	protected int getHPMax(){
+		return hpMax;
+	}
 	public int atacar(int valorDef){
 		if(machete){
 			int ataque = (((int)(getAtaque()*Math.random()))-valorDef)+10;
 			if(((int)(Math.random() * 99 + 1))<=25){
 				machete=false;
-				System.out.println("\n Se ha roto el machete! x.X\n");
+				System.out.println("\n Se ha roto el machete de "+getNombre()+"! x.X\n");
 			}
 			System.out.println(getNombre()+" ataca con una fuerza de: "+(ataque+valorDef));		
 			if(ataque<0){
@@ -89,7 +98,7 @@ public class Mercenario{
 			valorDefensa=((int)(getDefensa()*Math.random()))+15;
 			if(((int)(Math.random() * 99 + 1))<=25){
 				escudo=false;
-				System.out.println("\n Se ha roto el escudo! ._.\n");
+				System.out.println("\n Se ha roto el escudo de"+getNombre()+"! ._.\n");
 			}
 		}else{
 			valorDefensa=(int)(getDefensa()*Math.random());
